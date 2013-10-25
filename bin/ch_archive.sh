@@ -120,6 +120,7 @@ checkCommand "$ECHO" "echo"
 checkCommand "$RM" "rm"
 checkCommand "$SHA1SUM" "sha1sum"
 checkCommand "$FGREP" "fgrep"
+checkCommand "$TOUCH" "touch"
 
 if [ "$DATA_DIR" != "" ]
 then
@@ -171,6 +172,22 @@ file_list_file="$FILE_LIST"
 recipient_list_file="$GPG_RECIPIENTS"
 
 if [ ! -s "$file_list_file" ]
+then
+	$ECHO "The file list '$file_list_file' is empty. Please add a file" \
+		" or directory to this list to continue." >> $log_file
+	exit 1
+fi
+
+file_list_size=`$FGREP -v "#" "$file_list_file" | $WC -l`
+
+if [ "$file_list_size" == "" ]
+then
+	$ECHO "Unable to count the file list lines in file '$file_list_file'." \
+		>> $log_file
+	exit 1
+fi
+
+if [ "$file_list_size" -le 0 ]
 then
 	$ECHO "The file list '$file_list_file' is empty. Please add a file" \
 		" or directory to this list to continue." >> $log_file
@@ -251,6 +268,8 @@ function checkFiles
 #
 checkFiles
 
+tmp_file="/tmp/empty_file.$$"
+
 $FGREP -v "#" $file_list_file |
 while read filename
 do
@@ -259,9 +278,17 @@ do
 		ts=`$DATE | $SED 's/\n$//'`
 		$ECHO "$ts: The file name '$filename' does not" \
 			" exist." >> $log_file
-		exit 1
+
+		$TOUCH "$tmp_file"
 	fi
 done
+
+if [ -e "$tmp_file" ]
+then
+	removeFile "$tmp_file"
+
+	exit 1
+fi
 
 file_list=`$FGREP -v "#" $file_list_file | $TR '\n' ' '`
 
