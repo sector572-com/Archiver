@@ -1,0 +1,9 @@
+################################################################################
+#
+# File Name:	gpg_recipients
+# Description:	This file will contain the list of GPG recipients that you wish
+#		to encrypt your file for.
+#
+#		Enter the email address of the key one per line.
+#
+################################################################################

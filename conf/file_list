@@ -1,0 +1,9 @@
+################################################################################
+#
+# File Name:	file_list
+# Description:	This file will contain the list of files and or directories you
+#		want to archive.
+#
+#		Enter the absolute path to each file or directory one per line.
+#
+################################################################################
