@@ -3,6 +3,13 @@
 function checkCommand
 {
 	command="$1"
+	name="$2"
+
+	if [ "$name" == "" ]
+	then
+		echo "The command printable command name is empty."
+		exit 1
+	fi
 
 	if [ "$command" != "" ]
 	then

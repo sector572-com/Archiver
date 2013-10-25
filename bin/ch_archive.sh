@@ -31,11 +31,61 @@ app_home=""
 # It is not recommended that you modify any of the code below this point.
 #
 
+function checkDirectory
+{
+	dir="$1"
+	name="$2"
+
+	if [ "$name" == "" ]
+	then
+		echo "The printable directory name is empty."
+		exit 1
+	fi
+
+	if [ "$dir" != "" ]
+	then
+		if [ ! -e "$dir" ]
+		then
+			echo "The directory <$name> '$dir' does not exist."
+			exit 1
+		fi
+
+		if [ ! -d "$dir" ]
+		then
+			echo "The directory <$name> '$dir' is not a valid" \
+				" directory."
+			exit 1
+		fi
+
+		if [ ! -r "$dir" ]
+		then
+			echo "The dir <$name> '$dir' is not readable."
+			exit 1
+		fi
+
+		if [ ! -x "$dir" ]
+		then
+			echo "The dir <$name> '$dir' is not accessible."
+			exit 1
+		fi
+	else
+		echo "The directory <$name> was empty."
+		exit 1
+	fi
+}
+
+checkDirectory "$app_home" "app_home"
+
 bin_dir="$app_home/bin"
 conf_dir="$app_home/conf"
 log_dir="$app_home/log"
 data_dir="$app_home/data"
 lib_dir="$app_home/lib"
+
+checkDirectory "$bin_dir" "bin_dir"
+checkDirectory "$conf_dir" "conf_dir"
+checkDirectory "$log_dir" "log_dir"
+checkDirectory "$lib_dir" "lib_dir"
 
 . $conf_dir/common.sh
 
@@ -58,18 +108,27 @@ fi
 
 . $lib_dir/utils.sh
 
-checkCommand "$GPG"
-checkCommand "$TAR"
-checkCommand "$GZIP"
-checkCommand "$TR"
-checkCommand "$CAT"
-checkCommand "$DATE"
-checkCommand "$SED"
-checkCommand "$WC"
-checkCommand "$ECHO"
-checkCommand "$RM"
-checkCommand "$SHA1SUM"
-checkCommand "$FGREP"
+checkCommand "$GPG" "gpg"
+checkCommand "$TAR" "tar"
+checkCommand "$GZIP" "gzip"
+checkCommand "$TR" "tr"
+checkCommand "$CAT" "cat"
+checkCommand "$DATE" "date"
+checkCommand "$SED" "sed"
+checkCommand "$WC" "wc"
+checkCommand "$ECHO" "echo"
+checkCommand "$RM" "rm"
+checkCommand "$SHA1SUM" "sha1sum"
+checkCommand "$FGREP" "fgrep"
+
+if [ "$DATA_DIR" != "" ]
+then
+	checkDirectory "$DATA_DIR" "DATA_DIR"
+	data_dir="$DATA_DIR"
+	$ECHO "The data dir has been set to '$data_dir'." >> $log_file
+fi
+
+checkDirectory "$data_dir" "data_dir"
 
 timestamp=""
 
