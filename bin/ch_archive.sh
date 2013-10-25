@@ -122,15 +122,6 @@ checkCommand "$SHA1SUM" "sha1sum"
 checkCommand "$FGREP" "fgrep"
 checkCommand "$TOUCH" "touch"
 
-if [ "$DATA_DIR" != "" ]
-then
-	checkDirectory "$DATA_DIR" "DATA_DIR"
-	data_dir="$DATA_DIR"
-	$ECHO "The data dir has been set to '$data_dir'." >> $log_file
-fi
-
-checkDirectory "$data_dir" "data_dir"
-
 timestamp=""
 
 # none          - results in PREFIX_NAME.tar
@@ -164,12 +155,28 @@ else
 fi
 
 log_file="$log_dir/$PREFIX_NAME$timestamp.log"
+
+if [ "$DATA_DIR" != "" ]
+then
+	checkDirectory "$DATA_DIR" "DATA_DIR"
+	data_dir="$DATA_DIR"
+	$ECHO "The data dir has been set to '$data_dir'." >> $log_file
+fi
+
+checkDirectory "$data_dir" "data_dir"
 backup_file="$data_dir/$PREFIX_NAME$timestamp.tar"
 backup_index_file="$data_dir/$PREFIX_NAME-index$timestamp.txt"
 backup_chksum_file="$data_dir/$PREFIX_NAME-checksums$timestamp.sha1"
 backup_gpg_chksum_file="$data_dir/$PREFIX_NAME-gpg_checksums$timestamp.sha1"
 file_list_file="$FILE_LIST"
 recipient_list_file="$GPG_RECIPIENTS"
+
+if [ ! -f "$file_list_file" ]
+then
+	$ECHO "The file list '$file_list_file' is not a regular file." \
+		>> $log_file
+	exit 1
+fi
 
 if [ ! -s "$file_list_file" ]
 then
@@ -419,6 +426,13 @@ then
 	$ECHO "$ts: Skipping file encryption." >> $log_file
 elif [ "$ENCRYPT_FILE" -eq "1" ]
 then
+	if [ ! -f "$recipient_list_file" ]
+	then
+		$ECHO "The recipient list '$recipient_list_file' is not a" \
+			regular file." >> $log_file
+		exit 1
+	fi
+
 	if [ ! -s "$recipient_list_file" ]
 	then
 		$ECHO "The recipient list '$recipient_list_file' is empty. " \
