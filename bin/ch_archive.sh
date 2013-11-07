@@ -429,7 +429,7 @@ then
 	if [ ! -f "$recipient_list_file" ]
 	then
 		$ECHO "The recipient list '$recipient_list_file' is not a" \
-			regular file." >> $log_file
+			" regular file." >> $log_file
 		exit 1
 	fi
 
