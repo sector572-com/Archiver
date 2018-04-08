@@ -13,3 +13,5 @@ RM=/bin/rm
 SHA1SUM=/usr/bin/sha1sum
 FGREP=/bin/fgrep
 TOUCH=/usr/bin/touch
+FIND=/usr/bin/find
+EGREP=/bin/egrep

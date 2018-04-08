@@ -3,7 +3,7 @@
 ################################################################################
 #
 # Backup Utility Script for Unix/Linux
-# Copyright(c) 2013 - CodersHaven.net
+# Copyright(c) 2018 - sector572.com
 #
 # Author:	CodersHaven.net
 # Date:		2013-10-09
@@ -21,7 +21,7 @@
 #		any damages it may cause. You should probably test it on non-
 #		production data to ensure it works as you expect.
 #
-# Homepage:	http://www.codershaven.net
+# Homepage:	https://www.sector572.com
 #
 ################################################################################
 
@@ -122,6 +122,7 @@ checkCommand "$SHA1SUM" "sha1sum"
 checkCommand "$FGREP" "fgrep"
 checkCommand "$TOUCH" "touch"
 checkCommand "$FIND" "find"
+checkCommand "$EGREP" "egrep"
 
 timestamp=""
 

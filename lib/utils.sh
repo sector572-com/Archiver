@@ -31,7 +31,7 @@ function checkCommand
 			exit 1
 		fi
 	else
-		echo "The command was empty."
+		echo "The command was empty. [command='$command'; name='$name']"
 		exit 1
 	fi
 }
