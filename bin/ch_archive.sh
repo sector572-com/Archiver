@@ -8,7 +8,7 @@
 # Author:	CodersHaven.net
 # Date:		2013-10-09
 # File name:	ch_backup.sh
-# Version:	1.0.1
+# Version:	1.1.0
 # Description:	A utility script that can automatically archive directories and
 #		files. It can optionally compress and encrypt the backup files.
 #
