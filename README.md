@@ -2,7 +2,7 @@ Archiver
 ========
 
 Backup Utility Script for Unix/Linux
-Copyright(c) 2013 - CodersHaven.net
+Copyright(c) 2018 - sector572.com
 
 Description:  A utility script that can automatically archive directories and
               files. It can optionally compress and encrypt the backup files.
@@ -12,7 +12,7 @@ Disclaimer:   This product is free and provided as is with no warranty of any
               it so long as you leave the file information and disclaimer
               intact.
 
-              By using this script, codershaven.net is not responsible for
+              By using this script, sector572.com is not responsible for
               any damages it may cause. You should probably test it on non-
               production data to ensure it works as you expect.
 

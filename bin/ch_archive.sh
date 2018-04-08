@@ -121,6 +121,7 @@ checkCommand "$RM" "rm"
 checkCommand "$SHA1SUM" "sha1sum"
 checkCommand "$FGREP" "fgrep"
 checkCommand "$TOUCH" "touch"
+checkCommand "$FIND" "find"
 
 timestamp=""
 
@@ -297,10 +298,29 @@ then
 	exit 1
 fi
 
+# Cleanup old archive file.
+if [ "$CLEANUP_ARCHIVE_DAYS" != "" ]
+then
+        if $ECHO "$CLEANUP_ARCHIVE_DAYS" | $EGREP "^[0-9]+$" > /dev/null
+        then
+                if [ $CLEANUP_ARCHIVE_DAYS -gt 0 ]
+                then
+                        $FIND $DATA_DIR -name "$PREFIX*" -mtime +$CLEANUP_ARCHIVE_DAYS -exec $RM -f {} \;
+                fi
+        else
+                cleanup
+                ts=`$DATE | $SED 's/\n$//'`
+                $ECHO "$ts: The cleanup archive days parameter's value '"\
+                        "$CLEANUP_ARCHIVE_DAYS' "\
+                        " is not a valid option." >> $log_file
+                exit 1
+        fi
+fi
+
 file_list=`$FGREP -v "#" $file_list_file | $TR '\n' ' '`
 
 # Create backup file.
-if ! $TAR -cf $backup_file $file_list 2>> $log_file > /dev/null
+if ! $TAR --dereference -cf $backup_file $file_list 2>> $log_file > /dev/null
 then
 	cleanup
 	ts=`$DATE | $SED 's/\n$//'`
