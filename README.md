@@ -16,7 +16,7 @@ Disclaimer:   This product is free and provided as is with no warranty of any
               any damages it may cause. You should probably test it on non-
               production data to ensure it works as you expect.
 
-Homepage:     http://www.codershaven.net
+Homepage:     https://www.sector572.com
 
 Instructions:
 
